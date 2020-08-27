@@ -1,0 +1,45 @@
+{
+  "name": "idm-client",
+  "version": "0.0.1",
+  "description": "A client for the idm",
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "yarn format && tsc",
+    "format": "prettier --parser typescript --single-quote --trailing-comma all --print-width 99 --write \"./src/**/*.ts\"",
+    "test": "jest",
+    "prepack": "jest && tsc"
+  },
+  "repository": "git@github.com:liquid-state/idm-client.git",
+  "author": "Liquid State <dev@liquid-state.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/liquid-state/idm-client/issues"
+  },
+  "private": false,
+  "homepage": "https://github.com/liquid-state/idm-client#readme",
+  "devDependencies": {
+    "@types/jest": "^25.1.1",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^25.1.0",
+    "typescript": "^3.7.5"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "\\.(ts|tsx)$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|.*.test)\\.(ts|tsx|js)$",
+    "roots": [
+      "<rootDir>/src"
+    ]
+  }
+}
