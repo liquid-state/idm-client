@@ -1,4 +1,4 @@
-import { IIDMClient, MethodType, Options } from './types';
+import { IIDMClient, MethodType, Options, CreateUser } from './types';
 import { createIDMError } from './utils';
 
 const defaultOptions = {
@@ -70,6 +70,16 @@ class IDMClient implements IIDMClient {
     }
 
     return resp;
+  };
+
+  createUser = (newUser: CreateUser) => {
+    return this.apiRequest(
+      'users',
+      'Failed to create IDM user',
+      'POST',
+      {},
+      { ...newUser, username: newUser.email },
+    );
   };
 
   users = (page: number = 1) => {
