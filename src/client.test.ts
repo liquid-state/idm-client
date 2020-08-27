@@ -14,7 +14,7 @@ describe('IDM client', () => {
     try {
       new IDMClient('');
     } catch (e) {
-      expect(e).toBe('Pathways Error: You must specify a JWT');
+      expect(e.message).toBe('IDM Error: You must specify a JWT');
     }
   });
 });
