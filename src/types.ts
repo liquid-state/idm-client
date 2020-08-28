@@ -1,5 +1,9 @@
 import IDMClient from './client';
 
+type ISOString = string;
+type URL = string;
+type UUID = string;
+
 export interface IIDMClient {
   createInvitation(invitation: CreateInvitation): Promise<Response>;
   createUser(newUser: CreateUser): Promise<Response>;
@@ -31,17 +35,23 @@ export type IDMUser = {
 };
 
 export type IDMInvitation = {
-  [key: string]: any;
+  expires: ISOString;
+  organisation: URL;
+  sent_by: URL;
+  status: 'pending' | 'sent' | 'accepted' | 'expired' | 'cancelled';
+  token: UUID;
+  url: URL;
+  user: URL;
 };
 
 export type CreateInvitation = {
-  organisation: number;
+  organisation: string;
   userId: string;
 };
 
 export type CreateUser = {
   email: string;
-  organisation: number;
+  organisation: string;
   profile: {
     [key: string]: any;
   };

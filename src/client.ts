@@ -51,20 +51,13 @@ class IDMClient implements IIDMClient {
         : ''
     }`;
 
-    let body = undefined;
-    if (postData) {
-      body = new FormData();
-      for (let key in postData) {
-        body.append(key, postData[key]);
-      }
-    }
-
     const resp = await this.fetch(url, {
       method: requestMethod,
       headers: {
         Authorization: `Bearer ${this.jwt}`,
+        'content-type': 'application/json',
       },
-      body,
+      body: JSON.stringify(postData),
     });
     if (!resp.ok) {
       throw createIDMError(errorMessage, resp);
@@ -83,6 +76,7 @@ class IDMClient implements IIDMClient {
   createUser = (newUser: CreateUser) => {
     return this.apiRequest('users', 'Failed to create IDM user', 'POST', undefined, {
       ...newUser,
+      profile: newUser.profile,
       username: newUser.email,
     });
   };
