@@ -1,4 +1,4 @@
-import { IIDMClient, IIDMService, IDMUser, CreateUser } from './types';
+import { IIDMClient, IIDMService, IDMUser, CreateUser, CreateInvitation } from './types';
 import { createIDMError } from './utils';
 
 class IDMService implements IIDMService {
@@ -16,6 +16,13 @@ class IDMService implements IIDMService {
   };
 
   idm = this.client;
+
+  createInvitation = async (invitation: CreateInvitation) => {
+    const response = await this.client.createInvitation(invitation);
+    const body = await response.json();
+
+    return body;
+  };
 
   createUser = async (newUser: CreateUser) => {
     const response = await this.client.createUser(newUser);

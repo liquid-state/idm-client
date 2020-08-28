@@ -1,11 +1,13 @@
 import IDMClient from './client';
 
 export interface IIDMClient {
+  createInvitation(invitation: CreateInvitation): Promise<Response>;
   createUser(newUser: CreateUser): Promise<Response>;
   users(page?: number): Promise<Response>;
 }
 
 export interface IIDMService {
+  createInvitation(invitation: CreateInvitation): Promise<IDMInvitation>;
   createUser(newUser: CreateUser): Promise<IDMUser>;
   idm: IIDMClient;
   getAllUsers(): Promise<IDMUser[]>;
@@ -20,6 +22,15 @@ export type Options = {
 
 export type IDMUser = {
   [key: string]: any;
+};
+
+export type IDMInvitation = {
+  [key: string]: any;
+};
+
+export type CreateInvitation = {
+  organisation: number;
+  userId: string;
 };
 
 export type CreateUser = {

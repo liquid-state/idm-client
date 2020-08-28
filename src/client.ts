@@ -1,4 +1,4 @@
-import { IIDMClient, MethodType, Options, CreateUser } from './types';
+import { IIDMClient, MethodType, Options, CreateUser, CreateInvitation } from './types';
 import { createIDMError } from './utils';
 
 const defaultOptions = {
@@ -7,6 +7,7 @@ const defaultOptions = {
 };
 
 const pathMap: { [key: string]: string } = {
+  invitations: 'invitations/',
   users: 'users/',
 };
 
@@ -72,14 +73,18 @@ class IDMClient implements IIDMClient {
     return resp;
   };
 
+  createInvitation = (invitation: CreateInvitation) => {
+    return this.apiRequest('invitations', 'Failed to invite IDM user', 'POST', undefined, {
+      organisation: invitation.organisation,
+      user: invitation.userId,
+    });
+  };
+
   createUser = (newUser: CreateUser) => {
-    return this.apiRequest(
-      'users',
-      'Failed to create IDM user',
-      'POST',
-      {},
-      { ...newUser, username: newUser.email },
-    );
+    return this.apiRequest('users', 'Failed to create IDM user', 'POST', undefined, {
+      ...newUser,
+      username: newUser.email,
+    });
   };
 
   users = (page: number = 1) => {
