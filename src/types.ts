@@ -21,7 +21,13 @@ export type Options = {
 };
 
 export type IDMUser = {
-  [key: string]: any;
+  default_role: string;
+  default_role_uri: string;
+  email: string;
+  organisation: string;
+  profile: { [key: string]: any };
+  url: string;
+  username: string;
 };
 
 export type IDMInvitation = {
