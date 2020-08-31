@@ -2,7 +2,7 @@ import { IIDMClient, MethodType, Options, CreateUser, CreateInvitation } from '.
 import { createIDMError } from './utils';
 
 const defaultOptions = {
-  baseUrl: 'https://pathways.example.com',
+  baseUrl: 'https://idm.example.com',
   fetch: undefined,
 };
 

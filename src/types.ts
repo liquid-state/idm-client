@@ -30,6 +30,8 @@ export type Options = {
   fetch?: typeof fetch;
 };
 
+export type IDMUserProfile = { [key: string]: any };
+
 export type IDMUser = {
   default_role: string;
   default_role_uri: string;
@@ -37,7 +39,7 @@ export type IDMUser = {
   invitations: string[];
   is_active: boolean;
   organisation: string;
-  profile: { [key: string]: any };
+  profile: IDMUserProfile;
   url: string;
   username: string;
 };
