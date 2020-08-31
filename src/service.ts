@@ -31,6 +31,14 @@ class IDMService implements IIDMService {
     return body;
   };
 
+  deleteInvitation = async (id: string) => {
+    const response = await this.client.deleteInvitation(id);
+
+    if (response.ok) return true;
+
+    return false;
+  };
+
   getAllUsers = async (): Promise<IDMUser[]> => {
     let response = await this.client.users();
     let body = await response.json();
@@ -46,6 +54,13 @@ class IDMService implements IIDMService {
     }
 
     return users;
+  };
+
+  updateUserProfile = async (id: string, profile: { [key: string]: any }): Promise<IDMUser> => {
+    const response = await this.client.updateUserProfile(id, { profile });
+    const body = await response.json();
+
+    return body;
   };
 }
 

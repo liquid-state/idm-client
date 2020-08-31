@@ -7,17 +7,21 @@ type UUID = string;
 export interface IIDMClient {
   createInvitation(invitation: CreateInvitation): Promise<Response>;
   createUser(newUser: CreateUser): Promise<Response>;
+  deleteInvitation(id: string): Promise<Response>;
+  updateUserProfile(id: string, profile: { [key: string]: any }): Promise<Response>;
   users(page?: number): Promise<Response>;
 }
 
 export interface IIDMService {
   createInvitation(invitation: CreateInvitation): Promise<IDMInvitation>;
   createUser(newUser: CreateUser): Promise<IDMUser>;
+  deleteInvitation(id: string): Promise<boolean>;
   idm: IIDMClient;
   getAllUsers(): Promise<IDMUser[]>;
+  updateUserProfile(id: string, profile: { [key: string]: any }): Promise<IDMUser>;
 }
 
-export type MethodType = 'DELETE' | 'GET' | 'PATCH' | 'POST';
+export type MethodType = 'DELETE' | 'GET' | 'PATCH' | 'POST' | 'PUT';
 
 export type Options = {
   baseUrl?: string;
@@ -28,6 +32,7 @@ export type IDMUser = {
   default_role: string;
   default_role_uri: string;
   email: string;
+  invitations: string[];
   organisation: string;
   profile: { [key: string]: any };
   url: string;

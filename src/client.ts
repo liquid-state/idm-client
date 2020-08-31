@@ -7,7 +7,9 @@ const defaultOptions = {
 };
 
 const pathMap: { [key: string]: string } = {
+  deleteInvitation: 'invitations/{{id}}',
   invitations: 'invitations/',
+  updateUserProfile: 'users/{{id}}',
   users: 'users/',
 };
 
@@ -34,15 +36,28 @@ class IDMClient implements IIDMClient {
     return `${this.options.baseUrl}api/v1/${pathMap[path]}`;
   }
 
+  private buildPath(pathTemplate: string, pathParameters?: { [key: string]: string }): string {
+    if (!pathParameters) return pathTemplate;
+    const re = /{{([A-Za-z]+)}}/;
+
+    let path = pathTemplate;
+    let match;
+    while ((match = re.exec(path)) !== null) {
+      path = path.replace(match[0], pathParameters[match[1]]);
+    }
+
+    return path[path.length - 1] === '/' ? path : `${path}/`;
+  }
+
   private apiRequest = async (
     pathKey: string,
     errorMessage: string,
     requestMethod: MethodType,
     queryStringParameters?: { [key: string]: any },
-    postData?: { [key: string]: any },
-    // pathParameters?: { [key: string]: string },
+    body?: { [key: string]: any },
+    pathParameters?: { [key: string]: string },
   ): Promise<Response> => {
-    const url = `${this.getURL(pathKey)}${
+    const url = `${this.buildPath(this.getURL(pathKey), pathParameters)}${
       queryStringParameters
         ? Object.keys(queryStringParameters).reduce(
             (acc, key) => `${acc}${key}=${queryStringParameters[key]}&`,
@@ -57,7 +72,7 @@ class IDMClient implements IIDMClient {
         Authorization: `Bearer ${this.jwt}`,
         'content-type': 'application/json',
       },
-      body: JSON.stringify(postData),
+      body: JSON.stringify(body),
     });
     if (!resp.ok) {
       throw createIDMError(errorMessage, resp);
@@ -79,6 +94,28 @@ class IDMClient implements IIDMClient {
       profile: newUser.profile,
       username: newUser.email,
     });
+  };
+
+  deleteInvitation = (id: string) => {
+    return this.apiRequest(
+      'deleteInvitation',
+      "Failed to delete IDM user's invitation",
+      'DELETE',
+      undefined,
+      undefined,
+      { id },
+    );
+  };
+
+  updateUserProfile = (id: string, profile: { [key: string]: any }) => {
+    return this.apiRequest(
+      'updateUserProfile',
+      "Failed to update IDM user's profile",
+      'PATCH',
+      undefined,
+      profile,
+      { id },
+    );
   };
 
   users = (page: number = 1) => {
