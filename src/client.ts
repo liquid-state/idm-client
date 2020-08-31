@@ -9,6 +9,7 @@ const defaultOptions = {
 const pathMap: { [key: string]: string } = {
   deleteInvitation: 'invitations/{{id}}',
   invitations: 'invitations/',
+  updateUser: 'users/{{id}}',
   updateUserProfile: 'users/{{id}}',
   users: 'users/',
 };
@@ -107,6 +108,18 @@ class IDMClient implements IIDMClient {
     );
   };
 
+  updateUser = (id: string, user: { [key: string]: any }) => {
+    return this.apiRequest(
+      'updateUserProfile',
+      'Failed to update IDM user',
+      'PATCH',
+      undefined,
+      user,
+      { id },
+    );
+  };
+
+  // TODO: This should be merged with updateUser
   updateUserProfile = (id: string, profile: { [key: string]: any }) => {
     return this.apiRequest(
       'updateUserProfile',

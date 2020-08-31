@@ -56,6 +56,13 @@ class IDMService implements IIDMService {
     return users;
   };
 
+  updateUser = async (id: string, user: { [key: string]: any }) => {
+    const response = await this.client.updateUser(id, user);
+    const body = await response.json();
+
+    return body;
+  };
+
   updateUserProfile = async (id: string, profile: { [key: string]: any }): Promise<IDMUser> => {
     const response = await this.client.updateUserProfile(id, { profile });
     const body = await response.json();

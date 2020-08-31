@@ -8,6 +8,7 @@ export interface IIDMClient {
   createInvitation(invitation: CreateInvitation): Promise<Response>;
   createUser(newUser: CreateUser): Promise<Response>;
   deleteInvitation(id: string): Promise<Response>;
+  updateUser(id: string, user: { [key: string]: any }): Promise<Response>;
   updateUserProfile(id: string, profile: { [key: string]: any }): Promise<Response>;
   users(page?: number): Promise<Response>;
 }
@@ -18,6 +19,7 @@ export interface IIDMService {
   deleteInvitation(id: string): Promise<boolean>;
   idm: IIDMClient;
   getAllUsers(): Promise<IDMUser[]>;
+  updateUser(id: string, user: { [key: string]: any }): Promise<IDMUser>;
   updateUserProfile(id: string, profile: { [key: string]: any }): Promise<IDMUser>;
 }
 
@@ -33,6 +35,7 @@ export type IDMUser = {
   default_role_uri: string;
   email: string;
   invitations: string[];
+  is_active: boolean;
   organisation: string;
   profile: { [key: string]: any };
   url: string;
