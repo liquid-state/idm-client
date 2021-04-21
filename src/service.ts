@@ -1,4 +1,11 @@
-import { IIDMClient, IIDMService, IDMUser, CreateUser, CreateInvitation } from './types';
+import {
+  IIDMClient,
+  IIDMService,
+  IDMUser,
+  CreateUser,
+  CreateInvitation,
+  IDMSolutionConfigurations,
+} from './types';
 import { createIDMError } from './utils';
 
 class IDMService implements IIDMService {
@@ -54,6 +61,23 @@ class IDMService implements IIDMService {
     }
 
     return users;
+  };
+
+  solutions = async (): Promise<IDMSolutionConfigurations[]> => {
+    let response = await this.client.solutions();
+    let body = await response.json();
+    let organisations = [...body.results];
+    let nextUrl = body.next;
+
+    while (!!nextUrl) {
+      const pageNumber = this.extractPageNumber(nextUrl);
+      response = await this.client.solutions(pageNumber);
+      body = await response.json();
+      nextUrl = body.next;
+      organisations = [...organisations, ...body.results];
+    }
+
+    return organisations;
   };
 
   updateUser = async (id: string, user: { [key: string]: any }) => {
