@@ -8,6 +8,7 @@ export interface IIDMClient {
   createInvitation(invitation: CreateInvitation): Promise<Response>;
   createUser(newUser: CreateUser): Promise<Response>;
   deleteInvitation(id: string): Promise<Response>;
+  solutions(page?: number): Promise<Response>;
   updateUser(id: string, user: { [key: string]: any }): Promise<Response>;
   updateUserProfile(id: string, profile: { [key: string]: any }): Promise<Response>;
   users(page?: number): Promise<Response>;
@@ -17,8 +18,9 @@ export interface IIDMService {
   createInvitation(invitation: CreateInvitation): Promise<IDMInvitation>;
   createUser(newUser: CreateUser): Promise<IDMUser>;
   deleteInvitation(id: string): Promise<boolean>;
-  idm: IIDMClient;
   getAllUsers(): Promise<IDMUser[]>;
+  idm: IIDMClient;
+  solutions(): Promise<IDMSolutionConfigurations[]>;
   updateUser(id: string, user: { [key: string]: any }): Promise<IDMUser>;
   updateUserProfile(id: string, profile: { [key: string]: any }): Promise<IDMUser>;
 }
@@ -52,6 +54,29 @@ export type IDMInvitation = {
   token: UUID;
   url: URL;
   user: URL;
+};
+
+export type IDMSolutionConfigurations = {
+  configurations: IDMSolution[];
+  name: string;
+  url: string;
+};
+
+export type IDMSolution = {
+  body: {
+    app_token: string;
+    hospital_id: string;
+    organisation_slug: string;
+    ubiquity_app_id: number;
+    ubiquity_organisation_id: number;
+    ubiquity_organisation_slug: string;
+  };
+  organisation: {
+    pk: number;
+    slug: string;
+    name: string;
+  };
+  solution_name: string;
 };
 
 export type CreateInvitation = {

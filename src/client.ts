@@ -9,6 +9,7 @@ const defaultOptions = {
 const pathMap: { [key: string]: string } = {
   deleteInvitation: 'invitations/{{id}}',
   invitations: 'invitations/',
+  solutions: 'solutions/',
   updateUser: 'users/{{id}}',
   updateUserProfile: 'users/{{id}}',
   users: 'users/',
@@ -107,6 +108,9 @@ class IDMClient implements IIDMClient {
       { id },
     );
   };
+
+  solutions = (page: number = 1) =>
+    this.apiRequest('solutions', 'Failed to fetch solutions list', 'GET', { page });
 
   updateUser = (id: string, user: { [key: string]: any }) => {
     return this.apiRequest(
